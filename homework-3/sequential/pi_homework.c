@@ -5,6 +5,7 @@
 
 
 double pi_Sec(long int intervals_arg)
+double pi_Sec(long int intervals_arg)
 {
     long int i, intervals = intervals_arg;
     double x, dx, f, sum, pi;
@@ -36,7 +37,7 @@ double pi_Sec(long int intervals_arg)
 
 int main(int argc, char const *argv[])
 {
-    long int intervals[4] = {1e10, 1e11, 1e12, 1e13};
+    long int intervals[4] = {1e10, 3.6e10, 1.3e11, 5e11};
     int intervalsN = 4;
 
     FILE *fp;
