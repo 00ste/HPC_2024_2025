@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <complex>
 #include <chrono>
@@ -24,11 +25,11 @@
 */
 
 #define DEGREE 2        // Degree of the polynomial
-#define ITERATIONS 30000 // Maximum number of iterations
+// #define ITERATIONS 300000 // Maximum number of iterations
 
 using namespace std;
 
-double project(int WIDTH, int HEIGHT, int STEP)
+double project(int WIDTH, int HEIGHT, int STEP, int ITERATIONS)
 {
     int *const image = new int[HEIGHT * WIDTH];
 
@@ -49,7 +50,8 @@ double project(int WIDTH, int HEIGHT, int STEP)
 
             // z = z^2 + c
             complex<double> z(0, 0);
-            for (int i = 1; i <= ITERATIONS; i++)
+            int i;
+            for (i = 1; i <= ITERATIONS; i++)
             {
                 z = pow(z, 2) + c;
 
@@ -113,30 +115,35 @@ double project(int WIDTH, int HEIGHT, int STEP)
 int main(int argc, char *argv[]) {
     int threads[8] = {1, 2, 5, 10, 20, 40, 60, 100};
     int threadsN = 8;
-    int resolutions[5]   = {100, 500, 1000, 5000, 10000};
-    int resolutionsN = 5;
+    int resolutions[3] = {10000, 15000, 18000};
+    int resolutionsN = 3;
+    int iterations[4] = {300000, 1000000, 2000000, 5000000};
+    int iterationsN = 4;
 
-    FILE *fp;
+    ofstream outputFile;
 
-    fp = fopen("results.csv", "w");
-    if (fp == NULL) return 1;
+    int t, s, i;
+    for (i = 0; i < iterationsN; i++) {
+        std::stringstream filename;
+        filename << "results" << iterations[i] << ".csv";
+        outputFile.open(filename.str(), std::ios::out);
 
-    int t, s;
-    for (t = 0; t < threadsN; t++) {
-        omp_set_num_threads(threads[t]);
-        for (s = 0; s < resolutionsN; s++) {
-            int WIDTH = RATIO_X * resolutions[s];
-            int HEIGHT = RATIO_Y * resolutions[s];
-            int STEP = (double)RATIO_X / WIDTH;
-            printf("Starting test with %d threads and %d resolution\n", threads[t], resolutions[s]);
-            fprintf(fp, "%f", project(WIDTH, HEIGHT, STEP));
-            if (s < resolutionsN - 1) fprintf(fp, "; ");
-            }
-            fprintf(fp, "\n");
+        for (t = 0; t < threadsN; t++) {
+            omp_set_num_threads(threads[t]);
+            for (s = 0; s < resolutionsN; s++) {
+                int WIDTH = RATIO_X * resolutions[s];
+                int HEIGHT = RATIO_Y * resolutions[s];
+                int STEP = (double)RATIO_X / WIDTH;
+                printf("Starting test with %d threads and %d resolution\n", threads[t], resolutions[s]);
+                outputFile << project(WIDTH, HEIGHT, STEP, iterations[i]);
+                if (s < resolutionsN - 1) outputFile << ";";
+                }
+                outputFile << std::endl;
+        }
+
+        outputFile.close();
     }
-
-    fclose(fp);
 
     return 0;
-    }
+}
 
