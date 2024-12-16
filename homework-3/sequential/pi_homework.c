@@ -4,7 +4,7 @@
 #define PI25DT 3.141592653589793238462643
 
 
-double pi_Sec(int intervals_arg)
+double pi_Sec(long int intervals_arg)
 {
     long int i, intervals = intervals_arg;
     double x, dx, f, sum, pi;
@@ -36,7 +36,7 @@ double pi_Sec(int intervals_arg)
 
 int main(int argc, char const *argv[])
 {
-    int intervals[4] = {1.0e6, 1.0e7, 1.0e8, 1.0e9};
+    long int intervals[4] = {1e10, 1e11, 1e12, 1e13};
     int intervalsN = 4;
 
     FILE *fp;
@@ -46,7 +46,7 @@ int main(int argc, char const *argv[])
 
     int t;
     for (t = 0; t < intervalsN; t++) {
-        printf("Starting test with %d intervals\n", intervals[t]);
+        printf("Starting test with %ld intervals\n", intervals[t]);
         fprintf(fp, "%f;", pi_Sec(intervals[t]));
     }
 
