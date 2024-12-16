@@ -4,7 +4,7 @@
                
 #define PI25DT 3.141592653589793238462643
 
-int main(int argc, char **argv)
+int pi_parallel(int argc, char **argv)
 {
     long int i, intervals = INTERVALS;
     double x, dx, f, sum, pi;
@@ -44,6 +44,9 @@ int main(int argc, char **argv)
         printf("Computed PI %.24f\n", pi);
         printf("The true PI %.24f\n\n", PI25DT);
         printf("Elapsed time (s) = %.2lf\n", time2);
+
+        MPI_Finalize();
+        return time2;
     }
     
     // Slave processes 1 to size-1: compute a sub-interval and send the result to the master.
@@ -69,6 +72,29 @@ int main(int argc, char **argv)
         MPI_Send(&sum, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
     }
 
-    MPI_Finalize();
+    // MPI_Finalize();
+    // return 0;
+}
+
+int main(int argc, char *argv[]) {
+    int intervals[8] = {1, 2, 5, 10, 20, 40, 60, 100};
+
+    FILE *fp;
+
+    fp = fopen("results_parallel.csv", "w");
+    if (fp == NULL) return 1;
+
+    int t, s;
+    for (t = 0; t < 8; t++) {
+        printf("Starting test with %d intervals\n", intervals[t]);
+        fprintf(fp, "%f", pi_parallel(intervals[s]));
+        if (s < 5) fprintf(fp, "; ");
+    }
+
+    fprintf(fp, "\n");
+
+    fclose(fp);
+
     return 0;
 }
+
