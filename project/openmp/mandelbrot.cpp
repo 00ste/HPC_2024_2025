@@ -14,19 +14,21 @@
 #define RATIO_X (MAX_X - MIN_X)
 #define RATIO_Y (MAX_Y - MIN_Y)
 
+/*
 // Image size
 #define RESOLUTION 5000
 #define WIDTH (RATIO_X * RESOLUTION)
 #define HEIGHT (RATIO_Y * RESOLUTION)
 
 #define STEP ((double)RATIO_X / WIDTH)
+*/
 
 #define DEGREE 2        // Degree of the polynomial
-#define ITERATIONS 1500 // Maximum number of iterations
+#define ITERATIONS 30000 // Maximum number of iterations
 
 using namespace std;
 
-int main(int argc, char **argv)
+double project(int WIDTH, int HEIGHT, int STEP)
 {
     int *const image = new int[HEIGHT * WIDTH];
 
@@ -61,10 +63,13 @@ int main(int argc, char **argv)
         }
     }
     const auto end = chrono::steady_clock::now();
+    delete[] image; // It's here for coding style, but useless
+    return chrono::duration_cast<chrono::milliseconds>(end - start).count();
+    /*
     cout << "Time elapsed: "
          << chrono::duration_cast<chrono::milliseconds>(end - start).count()
          << " seconds." << endl;
-
+    
     // Write the result to a file
     ofstream matrix_out;
 
@@ -102,4 +107,36 @@ int main(int argc, char **argv)
 
     delete[] image; // It's here for coding style, but useless
     return 0;
+    */
 }
+
+int main(int argc, char *argv[]) {
+    int threads[8] = {1, 2, 5, 10, 20, 40, 60, 100};
+    int threadsN = 8;
+    int resolutions[5]   = {100, 500, 1000, 5000, 10000};
+    int resolutionsN = 5;
+
+    FILE *fp;
+
+    fp = fopen("results.csv", "w");
+    if (fp == NULL) return 1;
+
+    int t, s;
+    for (t = 0; t < threadsN; t++) {
+        omp_set_num_threads(threads[t]);
+        for (s = 0; s < resolutionsN; s++) {
+            int WIDTH = RATIO_X * resolutions[s];
+            int HEIGHT = RATIO_Y * resolutions[s];
+            int STEP = (double)RATIO_X / WIDTH;
+            printf("Starting test with %d threads and %d resolution\n", threads[t], resolutions[s]);
+            fprintf(fp, "%f", project(WIDTH, HEIGHT, STEP));
+            if (s < resolutionsN - 1) fprintf(fp, "; ");
+            }
+            fprintf(fp, "\n");
+    }
+
+    fclose(fp);
+
+    return 0;
+    }
+
