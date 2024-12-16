@@ -4,7 +4,7 @@
                
 #define PI25DT 3.141592653589793238462643
 
-int pi_parallel(int intervals_arg)
+double pi_parallel(int intervals_arg)
 {
     long int i, intervals = intervals_arg;
     double x, dx, f, sum, pi;
@@ -77,8 +77,8 @@ int pi_parallel(int intervals_arg)
 }
 
 int main(int argc, char *argv[]) {
-    int intervals[5] = {1e6, 1e7, 1e8, 1e9, 1e10};
-    int intervalsN = 5;
+    int intervals[4] = {1.0e6, 1.0e7, 1.0e8, 1.0e9};
+    int intervalsN = 4;
 
     FILE *fp;
 
