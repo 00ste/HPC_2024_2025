@@ -4,9 +4,9 @@
                
 #define PI25DT 3.141592653589793238462643
 
-int pi_parallel(int argc, char **argv)
+int pi_parallel(int intervals_arg)
 {
-    long int i, intervals = INTERVALS;
+    long int i, intervals = intervals_arg;
     double x, dx, f, sum, pi;
     double time2;
     int rank, size;
@@ -22,7 +22,7 @@ int pi_parallel(int argc, char **argv)
     // Master process 0: receive partial results from slave processes.
     if (rank == 0) {
         sum = 0.0;
-        dx = 1.0 / (double) INTERVALS;
+        dx = 1.0 / (double) intervals_arg;
         double temp;
 
         // Wait for slave processes to have finished.
@@ -51,9 +51,9 @@ int pi_parallel(int argc, char **argv)
     
     // Slave processes 1 to size-1: compute a sub-interval and send the result to the master.
     else {
-        intervals = INTERVALS / (size - 1);
+        intervals = intervals_arg / (size - 1);
         sum = 0.0;
-        dx = 1.0 / (double) INTERVALS;
+        dx = 1.0 / (double) intervals_arg;
         
         long start = intervals * (rank-1) + 1;
         long end = intervals * rank;

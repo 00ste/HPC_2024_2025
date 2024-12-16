@@ -3,11 +3,10 @@
                
 #define PI25DT 3.141592653589793238462643
 
-#define INTERVALS 100000000000
 
-int main(int argc, char **argv)
+int pi_Sec(int intervals_arg)
 {
-    long int i, intervals = INTERVALS;
+    long int i, intervals = intervals_arg;
     double x, dx, f, sum, pi;
     double time2;
     
@@ -31,6 +30,29 @@ int main(int argc, char **argv)
     printf("Computed PI %.24f\n", pi);
     printf("The true PI %.24f\n\n", PI25DT);
     printf("Elapsed time (s) = %.2lf\n", time2);
+
+    return time2;
+}
+
+int main(int argc, char const *argv[])
+{
+    int intervals[8] = {1, 2, 5, 10, 20, 40, 60, 100};
+
+    FILE *fp;
+
+    fp = fopen("results_sec.csv", "w");
+    if (fp == NULL) return 1;
+
+    int t, s;
+    for (t = 0; t < 8; t++) {
+        printf("Starting test with %d intervals\n", intervals[t]);
+        fprintf(fp, "%f", pi_parallel(intervals[s]));
+        if (s < 5) fprintf(fp, "; ");
+    }
+
+    fprintf(fp, "\n");
+
+    fclose(fp);
 
     return 0;
 }
