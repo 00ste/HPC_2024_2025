@@ -15,13 +15,13 @@ int setOutputZero(double *Xr_o, double *Xi_o, int N);
 int checkResults(double *xr, double *xi, double *xr_check, double *xi_check, double *Xr_o, double *Xi_r, int N);
 int printResults(double *xr, double *xi, int N);
 
-int sec(int argc, char *argv[])
+double sec(int N)
 {
   // Timestamps to measure performance 
   double dft_finish, idft_finish;
 
   // size of input array
-  int N = atoi(argv[1]);
+  // int N = atoi(argv[1]);
   printf("DFTW calculation with N = %d \n", N);
 
   double *xr = (double *)malloc(N * sizeof(double));
@@ -172,7 +172,7 @@ int main(int argc, char const *argv[])
   int t, s;
   for (s = 0; s < sizesN; s++) {
     printf("Starting test with %d size\n", sizes[s]);
-    fprintf(fp, "%f;", homework_1(sizes[s]));
+    fprintf(fp, "%f;", sec(sizes[s]));
   }
 
   fclose(fp);

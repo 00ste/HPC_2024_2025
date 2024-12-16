@@ -5,6 +5,7 @@
 
 
 double pi_Sec(long int intervals_arg)
+double pi_Sec(long int intervals_arg)
 {
     long int i, intervals = intervals_arg;
     double x, dx, f, sum, pi;
