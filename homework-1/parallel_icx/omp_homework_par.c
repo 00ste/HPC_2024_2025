@@ -79,7 +79,7 @@ double homework_1(int N)
 
 int main(int argc, char *argv[]) {
   int threads[8] = {1, 2, 5, 10, 20, 40, 60, 100};
-  int sizes[6]   = {1000, 5000, 10000, 50000, 100000, 500000};
+  int sizes[4] = {100000, 200000, 300000, 500000};
 
   FILE *fp;
 
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
   int t, s;
   for (t = 0; t < 8; t++) {
     omp_set_num_threads(threads[t]);
-    for (s = 0; s < 6; s++) {
+    for (s = 0; s < 4; s++) {
       printf("Starting test with %d threads and %d size\n", threads[t], sizes[s]);
       fprintf(fp, "%f", homework_1(sizes[s]));
       if (s < 5) fprintf(fp, "; ");
