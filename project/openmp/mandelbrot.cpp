@@ -65,23 +65,23 @@ double project(int WIDTH, int HEIGHT, int STEP, int ITERATIONS)
         }
     }
     const auto end = chrono::steady_clock::now();
-    delete[] image; // It's here for coding style, but useless
-    return chrono::duration_cast<chrono::milliseconds>(end - start).count();
-    /*
-    cout << "Time elapsed: "
-         << chrono::duration_cast<chrono::milliseconds>(end - start).count()
-         << " seconds." << endl;
+    double executionTime = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+    cout << "Time elapsed: " << executionTime << " ms." << endl;
     
     // Write the result to a file
     ofstream matrix_out;
 
+    /*
     if (argc < 2)
     {
         cout << "Please specify the output file as a parameter." << endl;
         return -1;
     }
+    */
 
-    matrix_out.open(argv[1], ios::trunc);
+    std::stringstream filename;
+    filename << "result_" << WIDTH << "_" << HEIGHT << "_" << ITERATIONS << ".csv";
+    matrix_out.open(/* argv[1] */ filename.str(), ios::trunc);
     if (!matrix_out.is_open())
     {
         cout << "Unable to open file." << endl;
@@ -108,8 +108,7 @@ double project(int WIDTH, int HEIGHT, int STEP, int ITERATIONS)
          << " seconds." << endl;
 
     delete[] image; // It's here for coding style, but useless
-    return 0;
-    */
+    return executionTime;
 }
 
 int main(int argc, char *argv[]) {

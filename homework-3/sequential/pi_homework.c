@@ -36,18 +36,18 @@ int pi_Sec(int intervals_arg)
 
 int main(int argc, char const *argv[])
 {
-    int intervals[8] = {1, 2, 5, 10, 20, 40, 60, 100};
+    int intervals[5] = {1e6, 1e7, 1e8, 1e9, 1e10};
+    int intervalsN = 5;
 
     FILE *fp;
 
     fp = fopen("results_sec.csv", "w");
     if (fp == NULL) return 1;
 
-    int t, s;
-    for (t = 0; t < 8; t++) {
+    int t;
+    for (t = 0; t < intervalsN; t++) {
         printf("Starting test with %d intervals\n", intervals[t]);
-        fprintf(fp, "%f", pi_parallel(intervals[s]));
-        if (s < 5) fprintf(fp, "; ");
+        fprintf(fp, "%f;", pi_Sec(intervals[t]));
     }
 
     fprintf(fp, "\n");

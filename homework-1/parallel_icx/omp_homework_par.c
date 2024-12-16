@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
     for (s = 0; s < 4; s++) {
       printf("Starting test with %d threads and %d size\n", threads[t], sizes[s]);
       fprintf(fp, "%f", homework_1(sizes[s]));
-      if (s < 5) fprintf(fp, "; ");
+      if (s < 3) fprintf(fp, "; ");
     }
     fprintf(fp, "\n");
   }

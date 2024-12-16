@@ -162,6 +162,7 @@ int printResults(double *xr, double *xi, int N)
 int main(int argc, char const *argv[])
 {
   int sizes[4] = {100000, 200000, 300000, 500000};
+  int sizesN = 4;
 
   FILE *fp;
 
@@ -169,10 +170,9 @@ int main(int argc, char const *argv[])
   if (fp == NULL) return 1;
 
   int t, s;
-  for (s = 0; s < sizeof(sizes); s++) {
+  for (s = 0; s < sizesN; s++) {
     printf("Starting test with %d size\n", sizes[s]);
-    fprintf(fp, "%f", homework_1(sizes[s]));
-    if (s < 5) fprintf(fp, "\n");
+    fprintf(fp, "%f;", homework_1(sizes[s]));
   }
 
   fclose(fp);
