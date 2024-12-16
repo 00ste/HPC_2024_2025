@@ -15,7 +15,7 @@ int setOutputZero(double *Xr_o, double *Xi_o, int N);
 int checkResults(double *xr, double *xi, double *xr_check, double *xi_check, double *Xr_o, double *Xi_r, int N);
 int printResults(double *xr, double *xi, int N);
 
-int main(int argc, char *argv[])
+int sec(int argc, char *argv[])
 {
   // Timestamps to measure performance 
   double dft_finish, idft_finish;
@@ -43,20 +43,20 @@ int main(int argc, char *argv[])
   int idft = 1;
   DFT(idft, xr, xi, Xr_o, Xi_o, N);
   dft_finish = omp_get_wtime();
-  // IDFT
-  idft = -1;
-  DFT(idft, Xr_o, Xi_o, xr_check, xi_check, N);
-  idft_finish = omp_get_wtime();
+  // // IDFT
+  // idft = -1;
+  // DFT(idft, Xr_o, Xi_o, xr_check, xi_check, N);
+  // idft_finish = omp_get_wtime();
 
-  // stop timer
-  /*
-  double run_time = omp_get_wtime() - start_time;
-  printf("DFTW computation in %f seconds\n", run_time);
-  */
-  printf("DFT: %f, IDFT: %f, TOTAL: %f\n", dft_finish - start_time, idft_finish - dft_finish, idft_finish - start_time);
+  // // stop timer
+  // /*
+  // double run_time = omp_get_wtime() - start_time;
+  // printf("DFTW computation in %f seconds\n", run_time);
+  // */
+  // printf("DFT: %f, IDFT: %f, TOTAL: %f\n", dft_finish - start_time, idft_finish - dft_finish, idft_finish - start_time);
 
-  // check the results: easy to make correctness errors with openMP
-  checkResults(xr, xi, xr_check, xi_check, Xr_o, Xi_o, N);
+  // // check the results: easy to make correctness errors with openMP
+  // checkResults(xr, xi, xr_check, xi_check, Xr_o, Xi_o, N);
 
 // print the results of the DFT
 #ifdef DEBUG
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
   free(xr_check);
   free(xi_check);
 
-  return 1;
+  return dft_finish - start_time;
 }
 
 // DFT/IDFT routine
@@ -157,4 +157,25 @@ int printResults(double *xr, double *xi, int N)
   for (n = 0; n < N; n++)
     printf("Xre[%d] = %f, Xim[%d] = %f \n", n, xr[n], n, xi[n]);
   return 1;
+}
+
+int main(int argc, char const *argv[])
+{
+  int sizes[4] = {100000, 200000, 300000, 500000};
+
+  FILE *fp;
+
+  fp = fopen("results_sec.csv", "w");
+  if (fp == NULL) return 1;
+
+  int t, s;
+  for (s = 0; s < sizeof(sizes); s++) {
+    printf("Starting test with %d size\n", sizes[s]);
+    fprintf(fp, "%f", homework_1(sizes[s]));
+    if (s < 5) fprintf(fp, "\n");
+  }
+
+  fclose(fp);
+
+  return 0;
 }
