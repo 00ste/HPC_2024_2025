@@ -1,0 +1,5 @@
+Total Size,Execution Time 500ms_0 Threads,Execution Time 750ms_0 Threads,Execution Time 500ms_1 Threads,Execution Time 750ms_1 Threads,Execution Time 500ms_2 Threads,Execution Time 750ms_2 Threads,Execution Time 500ms_5 Threads,Execution Time 750ms_5 Threads,Execution Time 500ms_10 Threads,Execution Time 750ms_10 Threads,Execution Time 500ms_20 Threads,Execution Time 750ms_20 Threads,Execution Time 500ms_40 Threads,Execution Time 500ms_40 Threads,Execution Time 500ms_60 Threads,Execution Time 500ms_60 Threads,Execution Time 500ms_100 Threads,Execution Time 750ms_100 Threads
+216000000,61797,91639,58039,85896,29106,42976,23672,35020,11810,17755,7450,11528,5199,8165,5170,7310,4766,7018
+253500000,74716,107982,68074,100682,34098,59464,27463,42161,13842,20596,9461,13057,6567,8961,5972,8568,5226,8064
+337500000,97026,143760,91279,135131,45683,67627,36976,55105,18523,27622,10673,17445,8301,12927,8081,11675,7254,10833
+600000000,172205,255724,161022,238547,80635,119093,65130,97215,33163,48613,21154,26070,14283,21167,13595,20045,13168,19171
